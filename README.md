@@ -1,12 +1,14 @@
-# ArcFace-System
+# ArcFace-System (Pytorch and tensorflow)
 ArcFace multi-classification system with Pytorch and tensorflow
 
 
-# Abstract
+# Abstract (This repository is Pytorch Version)
 
 This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model)
 
 # Tensorflow Version
+
+Tensorflow Version repository is as follows:
 
 ```sh
 $ git clone -b  ArcfaceSystem/tensorflow
