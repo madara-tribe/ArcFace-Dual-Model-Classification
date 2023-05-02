@@ -6,7 +6,7 @@ ArcFace multi-classification system with Pytorch and tensorflow
 
 # Performance
 
-| Model | Backborn | Head | class | accuracy |
+| Model | Head | Backborn | class | accuracy |
 | :---         |     :---:      |     :---:      |     :---:      |         ---: |
 | ArcFace | ArcFace head| efficientnetv2_s | 122 | 10%|
 | meta-model | Linear+softmax | resnet18| color (=11)  | 88%|
