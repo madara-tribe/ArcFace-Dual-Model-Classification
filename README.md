@@ -41,3 +41,4 @@ $ git clone -b  ArcfaceSystem/tensorflow Arcface_tensorflow
 
 <img src="https://user-images.githubusercontent.com/48679574/147999782-4e9e84cc-09f1-4a15-994b-1a2cb1f8e8b1.jpeg" width="500px">
 
+### ・[Lambda Layer](https://github.com/madara-tribe/Lambda-Networks)
