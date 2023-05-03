@@ -36,10 +36,12 @@ draw
 
 ## Dataset 
 
-Industrial parts. Refer to 'datasets/'
+Industrial parts. Refer to file 'dataset/cs_label.json'
+```sh
 ・120 class (main class to classify)
 ・9 color class (meta label)
 ・2 shape label (meta label)
+```
 
 
 ## useful technics
