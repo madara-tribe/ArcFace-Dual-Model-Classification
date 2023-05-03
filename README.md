@@ -6,9 +6,9 @@ This is pytorch version ArcFace system classification with 2 model (ArcFace + me
 
 <b>Dual model classification</b>
 
-At first classify top 50 candidate by arcface-model and next classify color and shape label by meta model.
+At first extract top 50 candidates by arcface-model and next classify color and shape label by meta model.
 
-Finally, classify and get class label.
+Finally, classify and get result class label.
 
 draw
 
