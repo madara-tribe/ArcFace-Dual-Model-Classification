@@ -1,7 +1,7 @@
 # ArcFace-DualModel-Classification (Pytorch and tensorflow)
 
-ArcFace multi-classification system with Pytorch and tensorflow.
-This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model).
+ArcFace dual model classification with Pytorch and tensorflow.
+This repogitory is pytorch with 2 model (ArcFace + meta-model).
 
 
 <b>Dual model classification</b>
