@@ -4,13 +4,13 @@ ArcFace multi-classification system with Pytorch and tensorflow.
 This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model)
 
 
-### Pytorch Version (This repository)
+## Pytorch Version (This repository)
 Pytorch Version repository is as follows:
 ```sh
 $ git clone  Arcface_pytorch
 ```
 
-### Tensorflow Version
+## Tensorflow Version
 
 Tensorflow Version repository is as follows:
 ```sh
@@ -20,7 +20,7 @@ $ git clone -b  ArcfaceSystem/tensorflow Arcface_tensorflow
 
 
 
-# Performance
+## Performance
 
 | Model | Head | Backborn | class | accuracy |
 | :---         |     :---:      |     :---:      |     :---:      |         ---: |
@@ -29,13 +29,13 @@ $ git clone -b  ArcfaceSystem/tensorflow Arcface_tensorflow
 | meta-model | Linear+softmax | resnet18| shape (=2)  | 97%|
 | ArcFace-model + meta-model | / | / | 122  | 86%|
 
-# validation loss curve
+## validation loss curve
 
-## ArcFace / Color / Shape
+### ArcFace / Color / Shape
 <img src="https://user-images.githubusercontent.com/48679574/235736339-6ff081d5-5c15-4cda-a344-0d3c7203c6f8.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/235736415-558dd327-efa8-4aa3-a264-ddd7ec52880f.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/235736439-99f855bf-d5ff-430b-bf2a-0665b2a45e41.png" width="300px">
 
 
-# useful technics
+## useful technics
 
 ### ・image padding resize (example)
 
