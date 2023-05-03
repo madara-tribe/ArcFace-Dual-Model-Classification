@@ -1,4 +1,4 @@
-# Abstaract (ArcFace-DualModel-Classification : Pytorch and tensorflow)
+# ArcFace-DualModel-Classification (Pytorch and tensorflow)
 
 ArcFace multi-classification system with Pytorch and tensorflow.
 This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model).
