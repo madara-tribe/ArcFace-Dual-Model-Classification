@@ -1,8 +1,14 @@
-# Abstaract (ArcFace-System : Pytorch and tensorflow)
+# Abstaract (ArcFace-DualModel-Classification : Pytorch and tensorflow)
 
 ArcFace multi-classification system with Pytorch and tensorflow.
-This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model)
+This is pytorch version ArcFace system classification with 2 model (ArcFace + meta-model).
 
+
+<b>Dual model classification</b>
+At first classify top 50 candidate by arcface-model and next classify color and shape label by meta model.
+Finally, classify and get class label.
+
+draw
 
 ## Pytorch Version (This repository)
 Pytorch Version repository is as follows:
