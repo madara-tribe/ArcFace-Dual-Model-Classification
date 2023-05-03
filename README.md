@@ -10,7 +10,8 @@ At first extract top 50 candidates by arcface-model and next classify color and 
 
 Finally, classify and get result class label.
 
-draw
+<img src="https://user-images.githubusercontent.com/48679574/235917765-d0100cc2-b282-4497-a33b-17a88d2013b3.jpg" width="500px">
+
 
 ## Version
 
