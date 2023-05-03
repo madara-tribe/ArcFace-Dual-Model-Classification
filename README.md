@@ -12,6 +12,13 @@ Finally, classify and get class label.
 
 draw
 
+## Version
+
+```sh
+・python : 3.8
+・pytorch : 2.0.0+cu117
+・torchvision : 0.15.1+cu117
+```
 
 ## Performance
 
