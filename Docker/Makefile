@@ -1,5 +1,5 @@
 IMAGE=arcface
-HOME=/home/app
+HOME=/home/coco
 run:
 	docker build -t ${IMAGE} .
 in:
