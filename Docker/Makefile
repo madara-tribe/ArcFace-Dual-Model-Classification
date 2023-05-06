@@ -1,6 +1,5 @@
-IMAGE=torcharc
-HOME=/home/tatsuyahagiwara
+IMAGE=python-keras
 run:
 	docker build -t ${IMAGE} .
 in:
-	docker run -v ${HOME}:/home/app --rm -it ${IMAGE}:latest bash
+	 NV_GPU=2 nvidia-docker run --runtime=nvidia -v /home/hagi:/home/app --rm -it ${IMAGE}:latest bash

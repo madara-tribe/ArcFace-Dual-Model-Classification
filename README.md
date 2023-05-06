@@ -1,68 +1,50 @@
-# ArcFace-DualModel-Classification (Pytorch and tensorflow)
-
-ArcFace dual model classification with Pytorch and tensorflow.
-
-This repogitory is pytorch with 2 model (ArcFace + meta-model).
-
-
-<b>Dual model classification</b>
-
-At first extract top 50 candidates by arcface-model and next classify color and shape label by meta model.
-
-Finally, classify and get result class label.
-
-<img src="https://user-images.githubusercontent.com/48679574/235917765-d0100cc2-b282-4497-a33b-17a88d2013b3.jpg" width="800px" height="400px"/>
-
-
-## Version
-
-```sh
-・python : 3.8
-・pytorch : 2.0.0+cu117
-・torchvision : 0.15.1+cu117
+# Versions
+```
+- Python==3.7.0
+- tensorflow==2.3.0
+- onnx==1.11.0
+- keras2onnx==1.9.0
 ```
 
-## Performance
+# Abstract
 
-| Model | Head | Backborn | class | accuracy |
-| :---         |     :---:      |     :---:      |     :---:      |         ---: |
-| ArcFace | ArcFace head| efficientnetv2_s | industry parts (=122) | 10%|
-| meta-model | Linear+softmax | resnet18| color (=11)  | 88%|
-| meta-model | Linear+softmax | resnet18| shape (=2)  | 97%|
-| ArcFace-model + meta-model | / | / | 122  | 86%|
+with 122 labels and "shape, color" labels (meta labels), use Arcface-model and meta-model for image classification task that is complicated and has small amount of data.
 
-## validation loss curve
-
-#### ArcFace / Color / Shape
-<img src="https://user-images.githubusercontent.com/48679574/235736339-6ff081d5-5c15-4cda-a344-0d3c7203c6f8.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/235736415-558dd327-efa8-4aa3-a264-ddd7ec52880f.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/235736439-99f855bf-d5ff-430b-bf2a-0665b2a45e41.png" width="300px">
-
-## Dataset 
-
-Industrial parts. Refer to file 'dataset/cs_label.json'
-```sh
-・122 class (main class to classify)
-・9 color class (meta label)
-・2 shape label (meta label)
-```
+<img src="https://user-images.githubusercontent.com/48679574/177512038-5c6a147d-94e7-4c6e-abda-8724c79df2da.png" width="400px">
 
 
-## useful technics
+# Performance
 
-#### ・image padding resize (example)
+| Model | Head | class | accuracy |
+| :---         |     :---:      |     :---:      |         ---: |
+| ArcFace-model| Dense+softmax   | 122 | 76%|
+| meta-model | ArcFace+softmax   | 11  | 82%|
+| ArcFace-model + meta-model | similar-image-search   | 122  | 96%|
+
+
+## Arcface model
+
+<img src="https://user-images.githubusercontent.com/48679574/177523259-2c21ad54-10f5-4d21-ac05-fdc9cf3fecf5.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/177523273-a55558f3-c397-4508-a687-6ff8510d6b3f.png" width="300px">
+
+## meta model
+
+<img src="https://user-images.githubusercontent.com/48679574/177523322-50cad032-20f5-4548-ac65-d68c3e109d3d.png" width="300px"><img src="https://user-images.githubusercontent.com/48679574/177523335-4c689fe3-46e2-4e74-826f-6b095ec148f4.png" width="300px">
+
+
+## Data-Centric approrch
+- optimizer Adam
+- category cross entropy
+- image padding resize
+
+model customize is not so much. Instead of model customization, improving accuracy approrch is mainly data preorocessing and data cleaning(data-Centric approrch)
+
+<b>image padding resize(example)</b>
 
 <img src="https://user-images.githubusercontent.com/48679574/147999782-4e9e84cc-09f1-4a15-994b-1a2cb1f8e8b1.jpeg" width="500px">
 
-#### ・[Lambda Layer](https://github.com/madara-tribe/Lambda-Networks)
 
-## Pytorch Version (This repository)
-Pytorch Version repository is as follows:
-```sh
-$ git clone  Arcface_pytorch
-```
 
-## Tensorflow Version
+# References
+- [keras_efficientnet_v2](https://github.com/leondgarse/keras_efficientnet_v2/blob/main/keras_efficientnet_v2/progressive_train_test.py)
+- [A data-centric approach to understanding the pricing of financial options](https://www.researchgate.net/publication/225829199_A_data-centric_approach_to_understanding_the_pricing_of_financial_options)
 
-Tensorflow Version repository is as follows:
-```sh
-$ git clone -b  ArcfaceSystem/tensorflow Arcface_tensorflow
-```

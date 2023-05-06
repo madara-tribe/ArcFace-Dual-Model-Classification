@@ -1,39 +1,70 @@
+import os
+import time
 import argparse
-import sys, os
-import numpy as np
-import torch
-from cfg import Cfg
-from utils.data_prepare import prepare
-from trainer import ArcfaceTrainer, RecognitionTrainer
+from meta_model.cfg import Cfg as csCfg
+from meta_model.train import MetaTrainer
+from meta_model.test import MetaTester
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--data_train', action='store_true', help='prepare train data')
-parser.add_argument('--data_test', action='store_true', help='prepare test data')
-parser.add_argument('--arc_train', action='store_true', help='start arcface train')
-parser.add_argument('--meta_train', action='store_true', help='start meta recognition train')
+from ArcFace_model.cfg import Cfg
+from ArcFace_model.train import Trainer
+from ArcFace_model.test import Tester
 
-parser.add_argument('--weight_path', type=str, default=None)
-opt = parser.parse_args()
+from predict import Predictor
 
-def main(opt, config):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    pin_memory=True
-    if opt.data_train:
-        prepare(use_train=True)
-    elif opt.data_test:
-        prepare(use_train=False)
-    elif opt.arc_train:
-        ArcfaceTrainer(config, device, num_workers=cfg.num_worker, pin_memory=pin_memory, weight_path=opt.weight_path)
-    elif opt.meta_train:
-        RecognitionTrainer(config, device, num_workers=cfg.num_worker, pin_memory=pin_memory, weight_path=opt.weight_path)
-    #elif opt.meta_train:
-        #RecognitionTrainer(config, device, num_workers=cfg.num_worker, pin_memory=pin_memory, weight_path=opt.weight_path)
+def main():
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument("--main", action="store_true",
+                            help="to work main.sh and predict.py")
+    parser.add_argument("--meta", action="store_true",
+                            help="to work meta in main.sh")
+    parser.add_argument("--arcface", action="store_true",
+                            help="to work ArcFace in main.sh")
+    parser.add_argument("--arcface_model_weight_path", default=None,
+                            help="arcface_model weight path")
+    parser.add_argument("--meta_model_weight_path", default=None,
+                            help="meta_model weight path")
+    parser.add_argument("--train", action="store_true",
+                            help="model train")
+    parser.add_argument("--eval", action="store_true",
+                            help="model test")
+    parser.add_argument("--predict", action="store_true",
+                            help="predict final label with arcface and meta model")
+    args = parser.parse_args()
+
+    if args.meta:
+        cscfg = csCfg
+        if args.train:
+            if args.meta_model_weight_path:
+                weight_path = args.meta_model_weight_path
+            else:
+                weight_path = None
+            os.makedirs(cscfg.WEIGHT_DIR, exist_ok=True)
+            MetaTrainer(cscfg).train(weight_path=weight_path)
+        elif args.eval: 
+            weight_path = args.meta_model_weight_path
+            MetaTester(cscfg).test(weight_path)   
+    elif args.arcface:
+        cfg = Cfg
+        if args.train:
+            weight_path = args.arcface_model_weight_path
+            os.makedirs(cfg.WEIGHT_DIR, exist_ok=True)
+            Trainer(cfg).train(weight_path=weight_path)   
+        elif args.eval:
+            weight_path = args.arcface_model_weight_path
+            Tester(cfg).test(weight_path)
+    elif args.main:
+        if args.predict:
+            candidates = 20
+            from ArcFace_model.load_model import load_arcface_model as load_pretrain_model
+            cscfg = csCfg
+            cfg = Cfg
+            meta_weight_path = args.meta_model_weight_path
+            meta_model = MetaTester(cscfg).load_model(meta_weight_path)
+            arcface_weight_path = args.arcface_model_weight_path
+            pretrained_model = load_pretrain_model(weights=arcface_weight_path)
+            arcface_model = Tester(cfg).load_arcface_model(pretrained_model)
+            Predictor(cscfg, meta_model, arcface_model).predict(num_candidates=candidates)
 
 if __name__ == '__main__':
-    cfg = Cfg
-    os.environ["CUDA_VISIBLE_DEVICES"] = cfg.gpu_id
-    try:
-        main(opt, cfg)
-    except KeyboardInterrupt:
-        sys.exit(1)
-        raise
+    main()
+
