@@ -1,0 +1,11 @@
+numpy
+matplotlib
+opencv-python
+torchsummary
+tqdm
+easydict 
+tensorboardX
+scikit-learn
+timm
+albumentations
+tensorboard
