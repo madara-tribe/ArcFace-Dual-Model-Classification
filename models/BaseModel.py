@@ -16,11 +16,13 @@ class ArcFaceModel(nn.Module):
         self.replace()
 
     def freeze_layer(self):
+        """
+        print("{i} st child layer {child} is grad True")
+        """
         for param in self.backbone.parameters():
             param.requires_grad = False
         for i, child in enumerate(self.backbone.children()):
             if i > len(list(self.backbone.children()))-3:
-                print("{}st child layer {} is grad True".format(i, child))
                 for param in child.parameters():
                     param.requires_grad = True
 
