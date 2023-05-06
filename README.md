@@ -57,12 +57,12 @@ Industrial parts. Refer to file 'dataset/cs_label.json'
 ## Pytorch Version (This repository)
 Pytorch Version repository is as follows:
 ```sh
-$ git clone  Arcface_pytorch
+$ git clone https://github.com/madara-tribe/ArcFace-Dual-Model-Classification
 ```
 
 ## Tensorflow Version
 
 Tensorflow Version repository is as follows:
 ```sh
-$ git clone -b  ArcfaceSystem/tensorflow Arcface_tensorflow
+$ git clone -b tensorflow_arcface https://github.com/madara-tribe/ArcFace-Dual-Model-Classification
 ```
