@@ -1,5 +1,5 @@
-IMAGE=torcharc
-HOME=/home/tatsuyahagiwara
+IMAGE=arcface
+HOME=/home/app
 run:
 	docker build -t ${IMAGE} .
 in:
