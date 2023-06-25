@@ -35,10 +35,10 @@ class ArcfaceTrainer:
                            comment=f'OPT_{config.TRAIN_OPTIMIZER}_LR_{config.lr}_BS_Size_{config.width}')
         self.num_workers = num_workers
         self.pin_memory = pin_memory
-        #if config.loss == 'focal_loss':
-         #   self.criterion = FocalLoss(gamma=2)
-        #else:
-        self.criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
+        if config.loss == 'focal_loss':
+            self.criterion = FocalLoss(gamma=2)
+        else:
+            self.criterion = nn.CrossEntropyLoss(label_smoothing=0.1)
 
         self.create_data_loader(config, use_imagefolder=False)
         self.callback_checkpoint = CallBackModelCheckpoint(config)
@@ -101,16 +101,21 @@ class ArcfaceTrainer:
             return backbone, header
             
     def call_arcface_loss(self, cfg, device):
-        if cfg.loss == "ArcFace":
+        if cfg.metric == "ArcFace":
             header = metrics.ArcMarginProduct(cfg.embedding_size, cfg.num_classes, device, s=cfg.s, m=cfg.m, easy_margin=False)
+        elif cfg.metric == 'arc_margin':
+            header = metrics.ArcMarginProduct(cfg.embedding_size, cfg.num_classes, device, s=30, m=0.5, easy_margin=False)
+        elif cfg.metric == 'sphere':
+            header = metrics.SphereProduct(cfg.embedding_size, cfg.num_classes, m=4)
         else:
             header = nn.Linear(cfg.embedding_size, cfg.num_classes)
+        header.to(device)
         return header
 
     def train(self, config, device, weight_path=None):
         # model
         backbone = ArcFaceModel(embedding_size=config.embedding_size).to(device)
-        header = self.call_arcface_loss(config, device).to(device)
+        header = self.call_arcface_loss(config, device)
         #print(backbone)
          
         if weight_path is not None:
