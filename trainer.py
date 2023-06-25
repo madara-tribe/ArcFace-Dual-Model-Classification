@@ -111,7 +111,7 @@ class ArcfaceTrainer:
             header = nn.Linear(cfg.embedding_size, cfg.num_classes)
         header.to(device)
         return header
-
+        
     def train(self, config, device, weight_path=None):
         # model
         backbone = ArcFaceModel(embedding_size=config.embedding_size).to(device)
