@@ -1,11 +1,8 @@
-from __future__ import print_function
-from __future__ import division
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Parameter
 import math
-
 
 class ArcMarginProduct(nn.Module):
     r"""Implement of large margin arc distance: :
@@ -14,15 +11,16 @@ class ArcMarginProduct(nn.Module):
             out_features: size of each output sample
             s: norm of input feature
             m: margin
+
             cos(theta + m)
         """
     def __init__(self, in_features, out_features, device, s=30.0, m=0.50, easy_margin=False):
         super(ArcMarginProduct, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
-        self.device = device
         self.s = s
         self.m = m
+        self.device = device
         self.weight = Parameter(torch.FloatTensor(out_features, in_features))
         nn.init.xavier_uniform_(self.weight)
 
@@ -63,7 +61,7 @@ class AddMarginProduct(nn.Module):
         cos(theta) - m
     """
 
-    def __init__(self, in_features, out_features, s=30.0, m=0.40):
+    def __init__(self, in_features, out_features, device, s=30.0, m=0.40):
         super(AddMarginProduct, self).__init__()
         self.in_features = in_features
         self.out_features = out_features
@@ -78,7 +76,7 @@ class AddMarginProduct(nn.Module):
         cosine = F.linear(F.normalize(input), F.normalize(self.weight))
         phi = cosine - self.m
         # --------------------------- convert label to one-hot ---------------------------
-        one_hot = torch.zeros(cos_theta.size())
+        one_hot = torch.zeros(cosine.size(), device=self.device)
         # one_hot = one_hot.cuda() if cosine.is_cuda else one_hot
         one_hot.scatter_(1, label.view(-1, 1).long(), 1)
         # -------------torch.where(out_i = {x_i if condition_i else y_i) -------------
@@ -157,5 +155,3 @@ class SphereProduct(nn.Module):
                + 'in_features=' + str(self.in_features) \
                + ', out_features=' + str(self.out_features) \
                + ', m=' + str(self.m) + ')'
-
-
