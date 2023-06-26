@@ -103,8 +103,6 @@ class ArcfaceTrainer:
     def call_arcface_loss(self, cfg, device):
         if cfg.metric == "ArcFace":
             header = metrics.ArcMarginProduct(cfg.embedding_size, cfg.num_classes, device, s=cfg.s, m=cfg.m, easy_margin=False)
-        elif cfg.metric == 'arc_margin':
-            header = metrics.ArcMarginProduct(cfg.embedding_size, cfg.num_classes, device, s=30, m=0.5, easy_margin=False)
         elif cfg.metric == 'sphere':
             header = metrics.SphereProduct(cfg.embedding_size, cfg.num_classes, m=4)
         else:
@@ -131,8 +129,8 @@ class ArcfaceTrainer:
         ''')
         
         # 4. Set up the optimizer, the loss, the learning rate scheduler and the loss scaling for AMP
-        opt_backbone, scheduler_backbone = create_optimizers(backbone, config)
-        opt_header, scheduler_header = create_optimizers(header, config)
+        opt_backbone, scheduler_backbone = create_optimizers(backbone, config, head=False)
+        opt_header, scheduler_header = create_optimizers(header, config, head=True)
         
         # 5. Begin training
         global_step = 0
