@@ -2,7 +2,14 @@ import torch
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 
-def create_optimizers(model, config):
+def create_optimizers(model, config, head=False):
+    if head:
+        lr = config.lr * 10
+        optimizer = torch.optim.AdamW(params=[
+            {'params': model.parameters(), 'lr': 0.1*lr},
+            ], lr=lr, betas=(0.9, 0.999), eps=1e-08)
+        scheduler = CosineAnnealingWarmRestarts(optimizer, T_0=config.T_0, T_mult=config.T_mult, eta_min=config.eta_min)
+        return optimizer, scheduler
     if config.TRAIN_OPTIMIZER.lower() == 'adam':
         optimizer = torch.optim.Adam(params=[
         {'params': model.parameters(), 'lr': 0.1*config.lr},
