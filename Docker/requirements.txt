@@ -9,3 +9,5 @@ scikit-learn
 timm
 albumentations
 tensorboard
+# cording
+flake8
